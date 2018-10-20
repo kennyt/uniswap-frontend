@@ -42,6 +42,7 @@ class CurrencyInputPanel extends Component {
     exchangeAddresses: PropTypes.shape({
       fromToken: PropTypes.object.isRequired,
     }).isRequired,
+    selectedTokenAddress: PropTypes.string,
     errors: PropTypes.arrayOf(PropTypes.string),
     addError: PropTypes.func,
     removeError: PropTypes.func,
@@ -58,6 +59,7 @@ class CurrencyInputPanel extends Component {
     addError() {},
     removeError() {},
     errors: [],
+    selectedTokenAddress: '',
   };
 
   static contextTypes = {
@@ -67,7 +69,6 @@ class CurrencyInputPanel extends Component {
   state = {
     isShowingModal: false,
     searchQuery: '',
-    selectedTokenAddress: '',
   };
 
   getTokenData(address) {
@@ -105,8 +106,8 @@ class CurrencyInputPanel extends Component {
     const {
       balance,
       initialized,
+      selectedTokenAddress,
     } = this.props;
-    const { selectedTokenAddress } = this.state;
     const { drizzle } = this.context;
     const { web3 } = drizzle;
 
@@ -163,7 +164,6 @@ class CurrencyInputPanel extends Component {
 
   onTokenSelect = (address) => {
     this.setState({
-      selectedTokenAddress: address || 'ETH',
       searchQuery: '',
       isShowingModal: false,
     });
@@ -288,9 +288,9 @@ class CurrencyInputPanel extends Component {
       showSubButton,
       subButtonContent,
       onSubButtonClick,
+      selectedTokenAddress,
     } = this.props;
 
-    const { selectedTokenAddress } = this.state;
     const balance = this.getBalance();
     this.validate(balance);
     const hasInsufficientBalance = errors.indexOf(INSUFFICIENT_BALANCE) > -1;
