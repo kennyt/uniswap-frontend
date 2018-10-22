@@ -4,6 +4,7 @@ import { drizzleConnect } from 'drizzle-react'
 import classnames from 'classnames';
 import Web3 from 'web3';
 import Jazzicon from 'jazzicon';
+import deepEqual from 'deep-equal';
 import { CSSTransitionGroup } from "react-transition-group";
 import './web3-status.scss';
 import Pending from '../../assets/images/pending.svg';
@@ -17,6 +18,11 @@ class Web3Status extends Component {
   state = {
     isShowingModal: false,
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !deepEqual(nextProps, this.props) ||
+      !deepEqual(nextState, this.state);
+  }
 
   handleClick = () => {
     if (this.props.hasPendingTransactions && !this.state.isShowingModal) {
